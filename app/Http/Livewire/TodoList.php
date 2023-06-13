@@ -59,7 +59,8 @@ class TodoList extends Component
         if (Auth::check()) {
             $todoItems = User::find(Auth::user()->id)->todoItems()->where('title', 'like', $searchString)->get();
         } else {
-            $todoItems = array_filter(session()->get('todo'), function($item) {
+            $todoList = session()->get('todo') ?? [];
+            $todoItems = array_filter($todoList, function($item) {
                 $searchString = "%$this->searchText%";
                 return preg_match($searchString , $item->title);
             });
