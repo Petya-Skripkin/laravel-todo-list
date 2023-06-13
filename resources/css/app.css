@@ -1,0 +1,32 @@
+body {
+    background-color: rgb(167, 167, 166);
+}
+
+.input:checked ~ label {
+    text-decoration: line-through;
+}
+
+.todo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.todo-container > input {
+    border: 2px solid rgb(65, 64, 64);
+    margin: 0;
+}
+
+.todo-container > label {
+    cursor: pointer;
+}
+
+.todo-container > button {
+    z-index: 10;
+}
+
+.form {
+    padding: 20px 40px;
+    border-radius: 10px;
+    background-color: rgb(208, 208, 208);
+}
