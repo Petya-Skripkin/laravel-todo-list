@@ -11,6 +11,8 @@ class TodoList extends Component
 {
     protected $listeners = ['$refresh'];
 
+    public $searchText;
+
     public function render()
     {
         $todoItems = session()->get('todo') ?? [];
@@ -19,7 +21,7 @@ class TodoList extends Component
             $todoItems = User::find(Auth::user()->id)->todoItems()->get();
         }
 
-        return view('livewire.todo-list', ['data' => $todoItems]);
+        return view('livewire.todo-list', ['data' => $this->search()]);
     }
 
     public function checkItem($id)
@@ -43,5 +45,21 @@ class TodoList extends Component
         } else {
             session()->forget("todo.$id");
         }
+    }
+
+    public function updated($field) {
+        if ($field === 'searchText') {
+            $this->emit('$refresh');
+        }
+    }
+
+    public function search()
+    {
+        $searchString = "%$this->searchText%";
+        if (Auth::check()) {
+            $todoItems = User::find(Auth::user()->id)->todoItems()->where('title', 'like', $searchString)->get();
+        }
+
+        return $todoItems;
     }
 }
